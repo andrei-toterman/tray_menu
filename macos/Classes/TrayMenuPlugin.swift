@@ -211,7 +211,9 @@ public class TrayMenuPlugin: NSObject, FlutterPlugin {
     let item = NSMenuItem()
     item.title = args["label"] as! String
     item.isEnabled = args["enabled"] as! Bool
-    item.submenu = NSMenu()
+    let submenu = NSMenu()
+    submenu.autoenablesItems = false
+    item.submenu = submenu
     return item
   }
 }
