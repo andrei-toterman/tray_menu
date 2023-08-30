@@ -99,6 +99,7 @@ mixin Menu {
 
 class TrayMenu with Menu {
   TrayMenu._() {
+    TrayMenuPlatform.instance.init();
     TrayMenuPlatform.instance.setCallbackHandler(_handleCallbacks);
   }
 

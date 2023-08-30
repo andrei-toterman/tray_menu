@@ -12,6 +12,9 @@ class MethodChannelTrayMenu extends TrayMenuPlatform {
   }
 
   @override
+  Future<void> init() => methodChannel.invokeMethod('init');
+
+  @override
   Future<void> show(String iconPath) =>
       methodChannel.invokeMethod('showTrayIcon', iconPath);
 
