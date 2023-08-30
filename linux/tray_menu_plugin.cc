@@ -77,6 +77,8 @@ struct _TrayMenuPlugin {
     AppIndicator* app_indicator;
     IndexedMenu menu;
 
+    FlMethodResponse* init(FlValue* args);
+
     FlMethodResponse* show_tray_icon(FlValue* args);
 
     FlMethodResponse* add_menu_item(FlValue* args);
@@ -97,6 +99,12 @@ struct _TrayMenuPlugin {
 };
 
 G_DEFINE_TYPE(TrayMenuPlugin, tray_menu_plugin, g_object_get_type())
+
+FlMethodResponse* TrayMenuPlugin::init(FlValue* args) {
+    g_clear_object(&app_indicator);
+    menu = IndexedMenu{};
+    return FL_METHOD_RESPONSE(fl_method_success_response_new(nullptr));
+}
 
 FlMethodResponse* TrayMenuPlugin::show_tray_icon(FlValue* args) {
     if (app_indicator) {
@@ -254,6 +262,7 @@ FlMethodResponse* TrayMenuPlugin::set_menu_item_checked(FlValue* args) {
 
 static void tray_menu_plugin_handle_method_call(TrayMenuPlugin* self, FlMethodCall* method_call) {
     static const std::unordered_map<std::string, FlMethodResponse* (TrayMenuPlugin::*) (FlValue*)> handlers = {
+            {"init", &TrayMenuPlugin::init},
             {"showTrayIcon", &TrayMenuPlugin::show_tray_icon},
             {"addMenuItem", &TrayMenuPlugin::add_menu_item},
             {"removeMenuItem", &TrayMenuPlugin::remove_menu_item},
