@@ -20,6 +20,7 @@ public:
 
     std::optional<LRESULT> window_proc_delegate(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 
+    void init(const flutter::EncodableValue* args, flutter::MethodResult<>& result);
     void show_tray_icon(const flutter::EncodableValue* args, flutter::MethodResult<>& result);
     void add_menu_item(const flutter::EncodableValue* args, flutter::MethodResult<>& result);
     void remove_menu_item(const flutter::EncodableValue* args, flutter::MethodResult<>& result);
