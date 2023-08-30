@@ -71,6 +71,7 @@ void TrayMenuPlugin::HandleMethodCall(const flutter::MethodCall<flutter::Encodab
                                       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
     using MethodHandler = void (TrayMenuPlugin::*)(const flutter::EncodableValue*, flutter::MethodResult<>&);
     static const std::unordered_map<std::string, MethodHandler> handlers = {
+            {"init", &TrayMenuPlugin::init},
             {"showTrayIcon", &TrayMenuPlugin::show_tray_icon},
             {"addMenuItem", &TrayMenuPlugin::add_menu_item},
             {"removeMenuItem", &TrayMenuPlugin::remove_menu_item},
@@ -124,6 +125,14 @@ std::string ConvertUtf16ToUtf8(const std::wstring& utf16) {
     std::string utf8(size, '0');
     WideCharToMultiByte(CP_UTF8, 0, utf16.c_str(), -1, utf8.data(), size, nullptr, false);
     return utf8;
+}
+
+void TrayMenuPlugin::init(const flutter::EncodableValue* args, flutter::MethodResult<>& result) {
+    DestroyIcon(nid.hIcon);
+    Shell_NotifyIcon(NIM_DELETE, &nid);
+    DestroyMenu(menu);
+    menu = CreatePopupMenu();
+    result.Success();
 }
 
 void TrayMenuPlugin::show_tray_icon(const flutter::EncodableValue* args, flutter::MethodResult<>& result) {
