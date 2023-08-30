@@ -29,6 +29,7 @@ public class TrayMenuPlugin: NSObject, FlutterPlugin {
     super.init()
     menu.autoenablesItems = false
     handlers = [
+      "init": self.initialize,
       "showTrayIcon": self.showTrayIcon,
       "addMenuItem": self.addMenuItem,
       "removeMenuItem": self.removeMenuItem,
@@ -59,6 +60,12 @@ public class TrayMenuPlugin: NSObject, FlutterPlugin {
     } else {
       result(FlutterMethodNotImplemented)
     }
+  }
+
+  func initialize(args: Any?, result: FlutterResult) {
+    statusItem = nil
+    menu.removeAllItems()
+    result(nil)
   }
 
   func showTrayIcon(args: Any?, result: FlutterResult) {
