@@ -21,13 +21,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> initTrayMenu() async {
-    await TrayMenu.instance.addLabel('aaa', label: 'aaa', callback: (key, _) {
-      TrayMenu.instance.get<MenuItemSubmenu>('ccc')?.remove('aaa');
+    await TrayMenu.root.addLabel('aaa', label: 'aaa', callback: (key, _) {
+      TrayMenu.root.get<MenuItemSubmenu>('ccc')?.remove('aaa');
     });
-    await TrayMenu.instance.addSeparator('sep');
-    await TrayMenu.instance
+    await TrayMenu.root.addSeparator('sep');
+    await TrayMenu.root
         .addLabel('bbb', label: 'bbb', callback: (key, _) => print(key));
-    await TrayMenu.instance
+    await TrayMenu.root
         .addSubmenu('ccc', label: 'submenu', before: 'sep')
         .then((menu) async {
       await menu.addLabel('aaa',
@@ -37,9 +37,9 @@ class _MyHomePageState extends State<MyHomePage> {
       await menu.addLabel('bbb',
           label: 'bbb', before: 'ccc', callback: (key, _) => print(key));
     });
-    await TrayMenu.instance.show('/home/andrei/icon.ico');
+    await TrayMenu.root.show('/home/andrei/icon.ico');
     Timer(const Duration(seconds: 10), () {
-      TrayMenu.instance
+      TrayMenu.root
           .addSubmenu('ddd', label: 'submenu 2', before: 'sep')
           .then((menu) async {
         await menu.addLabel('aaa',

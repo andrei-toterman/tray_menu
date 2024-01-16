@@ -111,7 +111,7 @@ class TrayMenu with Menu {
     TrayMenuPlatform.instance.setCallbackHandler(_handleCallbacks);
   }
 
-  static final instance = TrayMenu._();
+  static final root = TrayMenu._();
 
   Future<void> show(String iconPath) =>
       TrayMenuPlatform.instance.show(iconPath);
