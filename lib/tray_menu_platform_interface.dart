@@ -21,30 +21,25 @@ abstract class TrayMenuPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  void setCallbackHandler(Future<dynamic> Function(MethodCall) callback) =>
-      throw UnimplementedError();
+  void setCallbackHandler(Future<dynamic> Function(MethodCall) callback);
 
-  Future<void> init() => throw UnimplementedError();
+  Future<void> init();
 
-  Future<void> show(String iconPath) => throw UnimplementedError();
+  Future<void> show(String iconPath);
 
-  Future<int> add(_MenuItem item, {int? submenu, int? before}) =>
-      throw UnimplementedError();
+  Future<int> add(_MenuItem item, {int? submenu, int? before});
 
-  Future<void> remove(int handle) => throw UnimplementedError();
+  Future<void> remove(int handle);
 
-  Future<String> getMenuItemLabel(int handle) => throw UnimplementedError();
+  Future<String> getMenuItemLabel(int handle);
 
-  Future<void> setMenuItemLabel(int handle, String label) =>
-      throw UnimplementedError();
+  Future<void> setMenuItemLabel(int handle, String label);
 
-  Future<bool> getMenuItemEnabled(int handle) => throw UnimplementedError();
+  Future<bool> getMenuItemEnabled(int handle);
 
-  Future<void> setMenuItemEnabled(int handle, bool enabled) =>
-      throw UnimplementedError();
+  Future<void> setMenuItemEnabled(int handle, bool enabled);
 
-  Future<bool> getMenuItemChecked(int handle) => throw UnimplementedError();
+  Future<bool> getMenuItemChecked(int handle);
 
-  Future<void> setMenuItemChecked(int handle, bool checked) =>
-      throw UnimplementedError();
+  Future<void> setMenuItemChecked(int handle, bool checked);
 }
