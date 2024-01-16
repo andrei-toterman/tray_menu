@@ -104,12 +104,5 @@ class MenuItemSubmenu extends MenuItemLabel with Menu {
   MenuItemSubmenu._(super.hadle, super._label, super._enabled) : super._();
 
   @override
-  Future<int> _addItem(_MenuItem item, String? before) {
-    final beforeHandle = _items[before]?._handle;
-    return TrayMenuPlatform.instance.add(
-      item,
-      submenu: _handle,
-      before: beforeHandle,
-    );
-  }
+  int? get _submenuHandle => _handle;
 }

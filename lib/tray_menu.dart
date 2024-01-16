@@ -12,9 +12,16 @@ mixin Menu {
 
   Iterable<String> get keys => _items.keys;
 
-  Future<int> _addItem(_MenuItem item, String? before) {
-    final beforeHandle = _items[before]?._handle;
-    return TrayMenuPlatform.instance.add(item, before: beforeHandle);
+  int? get _submenuHandle => null;
+
+  Future<int> _addItem(String key, _MenuItem item, String? before) {
+    return _items.containsKey(key)
+        ? throw ArgumentError("Key '$key' already in use")
+        : TrayMenuPlatform.instance.add(
+            item,
+            before: _items[before]?._handle,
+            submenu: _submenuHandle,
+          );
   }
 
   Future<MenuItemLabel> addLabel(
@@ -24,8 +31,7 @@ mixin Menu {
     bool enabled = true,
     Function(String, MenuItem)? callback,
   }) async {
-    if (_items.containsKey(key)) throw ArgumentError('Key $key already in use');
-    final handle = await _addItem(_MenuItemLabel(label, enabled), before);
+    final handle = await _addItem(key, _MenuItemLabel(label, enabled), before);
     final item = MenuItemLabel._(handle, label, enabled, callback);
     _items[key] = item;
     _keysByHandle[handle] = key;
@@ -33,8 +39,7 @@ mixin Menu {
   }
 
   Future<MenuItemSeparator> addSeparator(String key, {String? before}) async {
-    if (_items.containsKey(key)) throw ArgumentError('Key $key already in use');
-    final handle = await _addItem(_MenuItemSeparator(), before);
+    final handle = await _addItem(key, _MenuItemSeparator(), before);
     final item = MenuItemSeparator._(handle);
     _items[key] = item;
     _keysByHandle[handle] = key;
@@ -49,8 +54,8 @@ mixin Menu {
     bool checked = false,
     Function(String, MenuItem)? callback,
   }) async {
-    if (_items.containsKey(key)) throw ArgumentError('Key $key already in use');
     final handle = await _addItem(
+      key,
       _MenuItemCheckbox(label, enabled, checked),
       before,
     );
@@ -66,8 +71,11 @@ mixin Menu {
     required String label,
     bool enabled = true,
   }) async {
-    if (_items.containsKey(key)) throw ArgumentError('Key $key already in use');
-    final handle = await _addItem(_MenuItemSubmenu(label, enabled), before);
+    final handle = await _addItem(
+      key,
+      _MenuItemSubmenu(label, enabled),
+      before,
+    );
     var item = MenuItemSubmenu._(handle, label, enabled);
     _items[key] = item;
     _keysByHandle[handle] = key;
