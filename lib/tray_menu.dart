@@ -117,12 +117,12 @@ class TrayMenu with Menu {
       TrayMenuPlatform.instance.show(iconPath);
 
   static Future<void> _handleCallbacks(MethodCall methodCall) async {
-    if (methodCall.method == 'itemCallback') {
-      final handle = methodCall.arguments as int;
-      final pair = instance._getByHandle(handle);
-      if (pair == null) return;
-      final (key, item) = pair;
-      item.callback?.call(key, item);
-    }
+    if (methodCall.method != 'itemCallback') return;
+
+    final handle = methodCall.arguments as int;
+    final itemWithKey = root._getByHandle(handle);
+    if (itemWithKey == null) return;
+    final (key, item) = itemWithKey;
+    item.callback?.call(key, item);
   }
 }
