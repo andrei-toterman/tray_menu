@@ -132,17 +132,22 @@ mixin Menu {
   }
 }
 
+/// Represents a handle to a system tray menu.
 class TrayMenu with Menu {
   TrayMenu._() {
     TrayMenuPlatform.instance.init();
     TrayMenuPlatform.instance.setCallbackHandler(_handleCallbacks);
   }
 
+  /// The global handle to the top-level menu of the this system tray.
   static final root = TrayMenu._();
 
+  /// Displays the system tray icon using the image found at [iconPath], which must be an absolute path.
+  /// If your icon file is part of your assets, you can write it to a temporary file and use the path of that file.
   Future<void> show(String iconPath) =>
       TrayMenuPlatform.instance.show(iconPath);
 
+  /// This method is responsible for dispatching platform calls to their respective [MenuItem.callback].
   static Future<void> _handleCallbacks(MethodCall methodCall) async {
     if (methodCall.method != 'itemCallback') return;
 
