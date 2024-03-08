@@ -74,6 +74,7 @@ public class TrayMenuPlugin: NSObject, FlutterPlugin {
     }
     let imagePath = args as! String
     let image = NSImage(contentsOfFile: imagePath)!
+    image.isTemplate = true;
     image.size = NSSize(width: 18, height: 18)
     statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     statusItem?.button?.image = image
