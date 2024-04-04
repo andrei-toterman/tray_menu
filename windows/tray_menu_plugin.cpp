@@ -97,6 +97,7 @@ std::optional<LRESULT> TrayMenuPlugin::window_proc_delegate(HWND hwnd, UINT mess
 
     POINT pt{};
     GetCursorPos(&pt);
+    SetForegroundWindow(hwnd);
     const int32_t handle = TrackPopupMenuEx(menu, TPM_LEFTBUTTON | TPM_RETURNCMD, pt.x, pt.y, nid.hWnd, nullptr);
     if (!handle) {
         return std::nullopt;
