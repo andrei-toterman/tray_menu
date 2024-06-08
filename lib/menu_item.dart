@@ -1,5 +1,92 @@
 part of 'tray_menu.dart';
 
+abstract class Spec<T extends MenuItem> {
+  Map<String, dynamic> toMap() => {'type': '$T'};
+}
+
+class MenuItemSeparatorSpec extends Spec<MenuItemSeparator> {}
+
+class MenuItemLabelSpec extends Spec<MenuItemLabel> {
+  final String label;
+  final bool enabled;
+
+  MenuItemLabelSpec(this.label, this.enabled);
+
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'label': label,
+        'enabled': enabled,
+      };
+}
+
+class MenuItemCheckboxSpec extends MenuItemLabelSpec {
+  final bool checked;
+
+  MenuItemCheckboxSpec(super.label, super.enabled, this.checked);
+
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'label': label,
+        'enabled': enabled,
+        'checked': checked,
+      };
+}
+
+class MenuItemSubmenuSpec extends MenuItemLabelSpec {
+  MenuItemSubmenuSpec(super.label, super.enabled);
+
+  @override
+  Map<String, dynamic> toMap() => {
+        ...super.toMap(),
+        'label': label,
+        'enabled': enabled,
+      };
+}
+
+abstract class Factory<T extends MenuItem> extends Spec<T> {
+  T create(int handle, [Function(String, MenuItem)? callback]);
+}
+
+class MenuItemSeparatorFactory extends MenuItemSeparatorSpec
+    implements Factory<MenuItemSeparator> {
+  @override
+  MenuItemSeparator create(int handle, [Function(String, MenuItem)? callback]) {
+    return MenuItemSeparator._(handle);
+  }
+}
+
+class MenuItemLabelFactory extends MenuItemLabelSpec
+    implements Factory<MenuItemLabel> {
+  MenuItemLabelFactory(super.label, super.enabled);
+
+  @override
+  MenuItemLabel create(int handle, [Function(String, MenuItem)? callback]) {
+    return MenuItemLabel._(handle, label, enabled, callback);
+  }
+}
+
+class MenuItemCheckboxFactory extends MenuItemCheckboxSpec
+    implements Factory<MenuItemCheckbox> {
+  MenuItemCheckboxFactory(super.label, super.enabled, super.checked);
+
+  @override
+  MenuItemCheckbox create(int handle, [Function(String, MenuItem)? callback]) {
+    return MenuItemCheckbox._(handle, label, enabled, checked, callback);
+  }
+}
+
+class MenuItemSubmenuFactory extends MenuItemSubmenuSpec
+    implements Factory<MenuItemSubmenu> {
+  MenuItemSubmenuFactory(super.label, super.enabled);
+
+  @override
+  MenuItemSubmenu create(int handle, [Function(String, MenuItem)? callback]) {
+    return MenuItemSubmenu._(handle, label, enabled);
+  }
+}
+
 abstract class _MenuItem {
   Map<String, dynamic> toMap() => {'type': '$runtimeType'};
 }

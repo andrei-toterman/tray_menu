@@ -32,6 +32,10 @@ mixin Menu {
           );
   }
 
+  T add<T extends MenuItem>(String key, Factory<T> itemFactory, String? before) {
+    itemFactory.
+  }
+
   /// Adds a menu item with the given [key] that displays the [label] text.
   /// [callback] will be called with [key] and this newly created [MenuItem] when it is [enabled] and it is clicked.
   /// If [before] is not null and refers to a key of another item within current menu, this new item will be inserted before it.
